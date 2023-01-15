@@ -3,13 +3,33 @@ from uuid import UUID
 from pydantic import BaseModel
 
 
-class AbstractMenuShema(BaseModel):
+class BaseMenuShema(BaseModel):
     """Абстрактный класс для операций меню"""
     title: str
     description: str
 
     class Config:
         orm_mode = True
+
+
+class PostMenuSchema(BaseMenuShema):
+    pass
+
+
+class GetMenuSchema(BaseMenuShema):
+    id: UUID
+    submenus_count: int = 0
+    dishes_count: int = 0
+
+
+class PatchMenuSchema(BaseModel):
+    title: str | None
+    description: str| None
+
+
+class PatchSubMenuSchema(BaseModel):
+    title: str | None
+    description: str| None
 
 
 class AbsractSubMenuSchema(BaseModel):
@@ -21,18 +41,6 @@ class AbsractSubMenuSchema(BaseModel):
         orm_mode = True
 
 
-class GetMenuSchema(AbstractMenuShema):
-    """Получение меню"""
-    id: UUID
-    submenus_count: int = 0
-    dishes_count: int = 0
-
-
-class CreateMenuSchema(AbstractMenuShema):
-    """Создание меню"""
-    pass
-
-
 class GetSubMenuSchema(AbsractSubMenuSchema):
     """Получение подменю"""
     id: UUID
@@ -42,6 +50,21 @@ class GetSubMenuSchema(AbsractSubMenuSchema):
 class CreateSubMenuSchema(AbsractSubMenuSchema):
     """Создание подменю"""
     pass
+
+
+class DeleteSubmenuSchema(BaseModel):
+    status: bool = True
+    message: str = "The submenu has been deleted"
+
+
+class DishSchema(BaseModel):
+    id: UUID | None
+    title: str
+    description: str
+    price: str
+
+    class Config:
+        orm_mode = True
 
 
 

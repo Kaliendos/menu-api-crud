@@ -15,7 +15,7 @@ class Menu(Base):
     )
     title = sa.Column(sa.String)
     description = sa.Column(sa.Text)
-    sub_menu = relationship("SubMenu", cascade="all, delete")
+    sub_menu = relationship("SubMenu", cascade="all, delete", lazy="dynamic")
 
 
 class SubMenu(Base):
@@ -29,7 +29,7 @@ class SubMenu(Base):
     description = sa.Column(sa.Text)
     menu_id = sa.Column(UUID, sa.ForeignKey("Menu.id"))
     Menu = relationship("Menu")
-    Dish = relationship("Dish", cascade="all, delete")
+    Dish = relationship("Dish", cascade="all, delete", lazy="dynamic")
 
 
 class Dish(Base):
