@@ -2,8 +2,9 @@ import uuid
 
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
-from config.database.db import Base
 from sqlalchemy.orm import relationship
+
+from config.database.db import Base
 
 
 class Menu(Base):
@@ -43,4 +44,3 @@ class Dish(Base):
     price = sa.Column(sa.Numeric(precision=10, scale=2), nullable=False)
     sub_menu_id = sa.Column(UUID, sa.ForeignKey("SubMenu.id"))
     SubMenu = relationship("SubMenu")
-

@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class BaseMenuShema(BaseModel):
-    """Абстрактный класс для операций меню"""
+    """Базовая схема для меню"""
     title: str
     description: str
 
@@ -24,16 +24,16 @@ class GetMenuSchema(BaseMenuShema):
 
 class PatchMenuSchema(BaseModel):
     title: str | None
-    description: str| None
+    description: str | None
 
 
 class PatchSubMenuSchema(BaseModel):
     title: str | None
-    description: str| None
+    description: str | None
 
 
-class AbsractSubMenuSchema(BaseModel):
-    """Абстрактный класс для операций SubMenu"""
+class BaseSubMenuSchema(BaseModel):
+    """Базовый класс для SubMenu"""
     title: str
     description: str
 
@@ -41,13 +41,13 @@ class AbsractSubMenuSchema(BaseModel):
         orm_mode = True
 
 
-class GetSubMenuSchema(AbsractSubMenuSchema):
+class GetSubMenuSchema(BaseSubMenuSchema):
     """Получение подменю"""
     id: UUID
     dishes_count: int = 0
 
 
-class CreateSubMenuSchema(AbsractSubMenuSchema):
+class CreateSubMenuSchema(BaseSubMenuSchema):
     """Создание подменю"""
     pass
 
@@ -67,4 +67,11 @@ class DishSchema(BaseModel):
         orm_mode = True
 
 
+class UpdateDishSchema(BaseModel):
+    id: UUID | None
+    title: str | None
+    description: str | None
+    price: str | None
 
+    class Config:
+        orm_mode = True
