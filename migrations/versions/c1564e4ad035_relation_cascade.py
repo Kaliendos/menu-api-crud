@@ -1,8 +1,8 @@
-"""relation cascade3
+"""relation cascade
 
-Revision ID: d268c80160ce
-Revises: d5b8fea8c594
-Create Date: 2023-01-16 22:42:17.879976
+Revision ID: c1564e4ad035
+Revises: 
+Create Date: 2023-01-17 15:25:19.838476
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd268c80160ce'
-down_revision = 'd5b8fea8c594'
+revision = 'c1564e4ad035'
+down_revision = None
 branch_labels = None
 depends_on = None
 
