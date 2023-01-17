@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+alembic.ini
 # C extensions
 *.so
 
@@ -142,11 +143,9 @@ dmypy.json
 
 # Local History for Visual Studio Code
 .history/
-
 .mypy_cache
 
 # папки со статикой и медиа
 media/
-api_yamdb/sent_emails
 
 *.zip
