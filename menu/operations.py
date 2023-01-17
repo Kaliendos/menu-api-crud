@@ -83,8 +83,6 @@ class SubMenuOperations(BaseOperation):
         submenus = menu.sub_menu.all()
         for submenu in submenus:
             submenu.dishes_count = submenu.Dish.count()
-            print(submenu.Dish.count())
-
         return submenus
 
     def create_submenu(
@@ -129,7 +127,6 @@ class DishOperation(BaseOperation):
         return dish_obj
 
     def get_dish_list(self, sub_menu_id: str) -> List[models.Dish]:
-        print(sub_menu_id)
         return (
             self.session.query(models.Dish)
             .filter(models.Dish.sub_menu_id == sub_menu_id)
