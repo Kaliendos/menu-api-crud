@@ -39,7 +39,7 @@ python3 -m pip install --upgrade pip
 ```
 
 ```
-pip install -r requirements.
+pip install -r requirements.txt
 ```
 
 **Настройте .env файл для подключения ваших переменных окружения**
