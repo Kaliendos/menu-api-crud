@@ -49,10 +49,12 @@ python3 -m pip install --upgrade pip
 ```
 **Настройте .env файл для подключения ваших переменных окружения**
 Для подключения базы данных достаточно заполнить список переменнных окружения в .env
-ATABASE_NAME
+```
+DATABASE_NAME
 DATABASE_USER
 DATABASE_PASSWORD
 DATABASE_HOST
+```
 **Выполните миграции: alembic upgrade head**
 
 Запустить проект:
