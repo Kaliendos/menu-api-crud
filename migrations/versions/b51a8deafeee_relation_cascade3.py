@@ -1,16 +1,17 @@
 """relation cascade3
 
-Revision ID: d5b8fea8c594
-Revises: f93b8d830fd6
-Create Date: 2023-01-15 21:36:31.148034
+Revision ID: b51a8deafeee
+Revises: d268c80160ce
+Create Date: 2023-01-17 11:29:32.720358
 
 """
-import sqlalchemy as sa
 from alembic import op
+import sqlalchemy as sa
+
 
 # revision identifiers, used by Alembic.
-revision = 'd5b8fea8c594'
-down_revision = 'f93b8d830fd6'
+revision = 'b51a8deafeee'
+down_revision = 'd268c80160ce'
 branch_labels = None
 depends_on = None
 

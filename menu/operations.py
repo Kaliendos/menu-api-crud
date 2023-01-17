@@ -9,8 +9,21 @@ from .base_classes import BaseOperation
 
 class MenuOperations(BaseOperation):
 
-    def _get_menu(self, menu_id):
+    def _get_menu(self, menu_id: UUID) -> models.Menu:
+        """Получить меню по id"""
         return self.get_object_or_404(models.Menu, menu_id, "menu not found")
+
+    @staticmethod
+    def _annotate_menu(menu_list: List) -> List[tuple]:
+        """Алгоритм подсчитывания количества блюд в меню"""
+        annotated_menu = []
+        count = 0
+        for menu in menu_list:
+            for submenu in menu.sub_menu:
+                count = submenu.Dish.count()
+                break
+            annotated_menu.append((menu, count))
+        return annotated_menu
 
     def get_menu_list(self) -> List[models.Menu]:
         menu_list = self.get_objects_list(models.Menu)
@@ -19,15 +32,12 @@ class MenuOperations(BaseOperation):
                 .where(models.SubMenu.menu_id == models.Menu.id)
                 .group_by(models.Menu.id).all()
         )
-        dishes_count = (
-            self.session.query(models.Menu, func.count(models.SubMenu.Dish))
-                .filter(models.SubMenu.menu_id == models.Menu.id)
-                .group_by(models.Menu.id).all()
-        )
+        for menu, count in self._annotate_menu(menu_list):
+            menu.dishes_count = count
+
         for menu, count in submenus_count_list:
             menu.submenus_count = count
-        for menu, count in dishes_count:
-            menu.dishes_count = count
+
         return menu_list
 
     def get_menu_by_id(self, menu_id) -> models.Menu:
@@ -63,17 +73,19 @@ class MenuOperations(BaseOperation):
 
 class SubMenuOperations(BaseOperation):
 
-    def _get_submenu(self, submenu_id):
+    def _get_submenu(self, submenu_id: UUID) -> models.SubMenu:
         return self.get_object_or_404(
             models.SubMenu, submenu_id, "submenu not found"
         )
 
     def get_sub_menu_list(self, menu_id) -> List[models.SubMenu]:
         menu = self.get_object_or_404(models.Menu, menu_id, "menu not found")
-        for submenu in menu.sub_menu.all():
-            for dish in submenu.Dish:
-                submenu.submenus_count = dish
-        return menu.sub_menu.all()
+        submenus = menu.sub_menu.all()
+        for submenu in submenus:
+            submenu.dishes_count = submenu.Dish.count()
+            print(submenu.Dish.count())
+
+        return submenus
 
     def create_submenu(
             self, menu_id,
@@ -84,7 +96,7 @@ class SubMenuOperations(BaseOperation):
         self.session.commit()
         return submenu_instance
 
-    def get_submenu_by_id(self, submenu_id) -> schemas.GetSubMenuSchema:
+    def get_submenu_by_id(self, submenu_id: UUID) -> models.SubMenu:
         submenu = self._get_submenu(submenu_id)
         submenu.dishes_count = len(submenu.Dish.all())
         return submenu
@@ -104,7 +116,7 @@ class SubMenuOperations(BaseOperation):
 
 class DishOperation(BaseOperation):
 
-    def _get_dish(self, dish_id):
+    def _get_dish(self, dish_id) -> models.Dish:
         return self.get_object_or_404(models.Dish, dish_id, "dish not found")
 
     def create_dish(
@@ -116,18 +128,19 @@ class DishOperation(BaseOperation):
         self.session.commit()
         return dish_obj
 
-    def get_dish_list(self, sub_menu) -> List[models.Dish]:
+    def get_dish_list(self, sub_menu_id: str) -> List[models.Dish]:
+        print(sub_menu_id)
         return (
             self.session.query(models.Dish)
-            .filter(models.Dish.sub_menu_id == sub_menu)
+            .filter(models.Dish.sub_menu_id == sub_menu_id)
             .all()
         )
 
-    def get_dish_item(self, dish_id) -> models.Dish:
+    def get_dish_item(self, dish_id: UUID) -> models.Dish:
         return self._get_dish(dish_id)
 
     def patch_dish(
-            self, dish_id,
+            self, dish_id: UUID,
             schema: schemas.UpdateDishSchema) -> models.Dish:
         dish = self._get_dish(dish_id)
         data_dict = schema.dict(exclude_unset=True)
@@ -136,6 +149,6 @@ class DishOperation(BaseOperation):
         self.session.commit()
         return dish
 
-    def delete_dish(self, dish_id):
+    def delete_dish(self, dish_id: UUID):
         self.session.delete(self._get_dish(dish_id))
         self.session.commit()

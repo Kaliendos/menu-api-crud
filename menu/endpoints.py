@@ -1,4 +1,5 @@
 from typing import List
+from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
@@ -19,7 +20,7 @@ def get_menu_list(operation: MenuOperations = Depends()):
 
 @router.get("/menus/{menu_id}",
             response_model=schemas.GetMenuSchema)
-def get_menu_by_id(menu_id, operation: MenuOperations = Depends()):
+def get_menu_by_id(menu_id: UUID, operation: MenuOperations = Depends()):
     return operation.get_menu_by_id(menu_id)
 
 
@@ -33,7 +34,7 @@ def create_menu(request_data: schemas.PostMenuSchema,
 
 @router.patch("/menus/{menu_id}", response_model=schemas.GetMenuSchema)
 def patch_menu(
-        menu_id,
+        menu_id: UUID,
         request_data: schemas.PatchMenuSchema,
         operation: MenuOperations = Depends()):
     return operation.patch_menu(menu_id, request_data)
@@ -41,7 +42,7 @@ def patch_menu(
 
 @router.delete("/menus/{menu_id}")
 def delete_menu(
-        menu_id,
+        menu_id: UUID,
         operation: MenuOperations = Depends()):
     operation.delete_menu(menu_id)
     return {"status": True, "message": "The menu has been deleted"}
@@ -52,7 +53,7 @@ def delete_menu(
              response_model=schemas.GetSubMenuSchema,
              status_code=201)
 def create_sub_menu(
-        menu_id,
+        menu_id: str,
         request_data: schemas.CreateSubMenuSchema,
         operation: SubMenuOperations = Depends(),
 ):
@@ -62,7 +63,7 @@ def create_sub_menu(
 @router.get("/menus/{menu_id}/submenus",
             response_model=List[schemas.GetSubMenuSchema])
 def get_submenus_list(
-        menu_id,
+        menu_id: UUID,
         operation: SubMenuOperations = Depends(),
 ):
     return operation.get_sub_menu_list(menu_id)
@@ -71,7 +72,7 @@ def get_submenus_list(
 @router.get("/menus/{menu_id}/submenus/{submenu_id}",
             response_model=schemas.GetSubMenuSchema)
 def get_submenu_by_id(
-        submenu_id,
+        submenu_id: UUID,
         operation: SubMenuOperations = Depends(),
 ):
     return operation.get_submenu_by_id(submenu_id)
@@ -80,7 +81,7 @@ def get_submenu_by_id(
 @router.patch("/menus/{menu_id}/submenus/{submenu_id}",
               response_model=schemas.GetSubMenuSchema)
 def patch_submenu(
-        submenu_id,
+        submenu_id: UUID,
         request_data: schemas.PatchMenuSchema,
         operation: SubMenuOperations = Depends()
 ):
@@ -89,7 +90,7 @@ def patch_submenu(
 
 @router.delete("/menus/{menu_id}/submenus/{submenu_id}")
 def delete_submenu(
-        submenu_id,
+        submenu_id: UUID,
         operation: SubMenuOperations = Depends()
 ):
     operation.delete_submenu(submenu_id)
@@ -100,7 +101,7 @@ def delete_submenu(
 @router.post("/menus/{menu_id}/submenus/{submenu_id}/dishes",
              response_model=schemas.DishSchema, status_code=201)
 def create_dish(
-        submenu_id,
+        submenu_id: str,
         request_data: schemas.DishSchema,
         operation: DishOperation = Depends(),
 ):
@@ -110,7 +111,7 @@ def create_dish(
 @router.get("/menus/{menu_id}/submenus/{submenu_id}/dishes",
             response_model=List[schemas.DishSchema])
 def create_dish_list(
-        submenu_id,
+        submenu_id: str,
         operation: DishOperation = Depends(),
 ):
     return operation.get_dish_list(submenu_id)
@@ -119,7 +120,7 @@ def create_dish_list(
 @router.get("/menus/{menu_id}/submenus/{submenu_id}/dishes/{dish_id}",
             response_model=schemas.DishSchema)
 def create_dish_item(
-        dish_id,
+        dish_id: UUID,
         operation: DishOperation = Depends(),
 ):
     return operation.get_dish_item(dish_id)
@@ -127,13 +128,13 @@ def create_dish_item(
 
 @router.patch("/menus/{menu_id}/submenus/{submenu_id}/dishes/{dish_id}",
               response_model=schemas.DishSchema)
-def patch_dish_item(dish_id,
+def patch_dish_item(dish_id: UUID,
                     schema: schemas.UpdateDishSchema,
                     operation: DishOperation = Depends()):
     return operation.patch_dish(dish_id, schema)
 
 
 @router.delete("/menus/{menu_id}/submenus/{submenu_id}/dishes/{dish_id}")
-def delete_dish(dish_id, operation: DishOperation = Depends()):
+def delete_dish(dish_id: UUID, operation: DishOperation = Depends()):
     operation.delete_dish(dish_id)
     return {"status": True, "message": "The dish has been deleted"}

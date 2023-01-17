@@ -27,6 +27,7 @@ class PatchMenuSchema(BaseModel):
     description: str | None
 
 
+# SubMenus
 class PatchSubMenuSchema(BaseModel):
     title: str | None
     description: str | None
@@ -52,11 +53,7 @@ class CreateSubMenuSchema(BaseSubMenuSchema):
     pass
 
 
-class DeleteSubmenuSchema(BaseModel):
-    status: bool = True
-    message: str = "The submenu has been deleted"
-
-
+# Dishes
 class DishSchema(BaseModel):
     id: UUID | None
     title: str

@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import Depends, HTTPException
 
 from config.database.db import SessionLocal, get_session
@@ -11,7 +13,7 @@ class BaseOperation:
     def __init__(self, session: SessionLocal = Depends(get_session)):
         self.session = session
 
-    def get_objects_list(self, model):
+    def get_objects_list(self, model) -> List:
         """
         Получить список объектов,
         принимает параметр model в качестве модели
