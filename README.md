@@ -1,5 +1,4 @@
-# Проект api-crud-menu
-### api_yamdb
+# Проект menu-api-crud
 
 ## **Описание**. 
  
