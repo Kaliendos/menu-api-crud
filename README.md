@@ -27,6 +27,11 @@ python3 -m venv venv
 source venv/Scripts/activate
 ```
 
+перейти в каталог приложения:
+```
+cd menu-api-crud
+```
+
 Установить зависимости из файла requirements.txt:
 
 ```
