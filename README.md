@@ -39,8 +39,20 @@ python3 -m pip install --upgrade pip
 ```
 
 ```
-pip install -r requirements.txt
+pip install -r requirements.
 ```
+
+Подключить базу данных в файле :
+
+```
+python3 -m pip install --upgrade pip
+```
+**Настройте .env файл для подключения ваших переменных окружения**
+Для подключения базы данных достаточно заполнить список переменнных окружения в .env
+ATABASE_NAME
+DATABASE_USER
+DATABASE_PASSWORD
+DATABASE_HOST
 **Выполните миграции: alembic upgrade head**
 
 Запустить проект:
@@ -50,7 +62,7 @@ uvicorn main:app --reload
 
 ```
 
-**Настройте .env файл для подключения ваших переменных окружения**
+
 
 
 ## **Примеры запросов**
