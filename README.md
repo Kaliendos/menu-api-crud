@@ -41,8 +41,7 @@ python3 -m pip install --upgrade pip
 ```
 pip install -r requirements.txt
 ```
-
-
+**Выполните миграции: alembic upgrade head**
 
 Запустить проект:
 
@@ -51,7 +50,7 @@ uvicorn main:app --reload
 
 ```
 
-**Настройте .env файл для подключения ваших переменных окружения
+**Настройте .env файл для подключения ваших переменных окружения**
 
 
 ## **Примеры запросов**
