@@ -110,7 +110,7 @@ def create_dish(
 
 @router.get("/menus/{menu_id}/submenus/{submenu_id}/dishes",
             response_model=List[schemas.DishSchema])
-def create_dish_list(
+def get_dish_list(
         submenu_id: str,
         operation: DishOperation = Depends(),
 ):
@@ -119,7 +119,7 @@ def create_dish_list(
 
 @router.get("/menus/{menu_id}/submenus/{submenu_id}/dishes/{dish_id}",
             response_model=schemas.DishSchema)
-def create_dish_item(
+def get_dish_item(
         dish_id: UUID,
         operation: DishOperation = Depends(),
 ):
